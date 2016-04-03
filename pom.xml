@@ -33,5 +33,48 @@
       <version>4.1.0.CR3</version>
       <scope>compile</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>io.moquette</groupId>
+      <artifactId>moquette-broker</artifactId>
+      <version>0.8</version>
+      <exclusions>
+       <exclusion>
+       		<groupId>io.netty</groupId>
+      		<artifactId>netty-all</artifactId>
+      	</exclusion>
+      </exclusions>
+	</dependency>
+	   <dependency>
+      <groupId>io.moquette</groupId>
+      <artifactId>moquette-netty-parser</artifactId>
+      <version>0.8</version>
+      
+	</dependency>
+	<dependency>
+  <groupId>org.fusesource.mqtt-client</groupId>
+  <artifactId>mqtt-client</artifactId>
+  <version>1.12</version>
+</dependency>
+
+<dependency>
+	<groupId>com.alibaba</groupId>
+	<artifactId>fastjson</artifactId>
+	<version>1.2.8</version>
+</dependency>
+	
   </dependencies>
+  
+  <repositories>
+  <repository>
+    <id>bintray</id>
+    <url>http://dl.bintray.com/andsel/maven/</url>
+    <releases>
+      <enabled>true</enabled>
+    </releases>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+  </repository>
+</repositories>
 </project>

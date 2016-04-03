@@ -1,5 +1,8 @@
 package ylj.demo.network.netty4;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
@@ -15,7 +18,8 @@ import io.netty.util.ReferenceCountUtil;
 import io.netty.channel.ChannelFutureListener;
 
 public class DemoServer {
-	
+	private static final Logger logger = Logger.getLogger(DemoServer.class);
+
 	public static class TimeServerHandler extends ChannelInboundHandlerAdapter {
 
 	    @Override
@@ -120,6 +124,10 @@ public class DemoServer {
 	   
 }
 	 public static void main(String[] args) throws Exception {
+		 
+			DOMConfigurator.configure("conf/log4j.xml");
+
+			
 	        int port;
 	        if (args.length > 0) {
 	            port = Integer.parseInt(args[0]);

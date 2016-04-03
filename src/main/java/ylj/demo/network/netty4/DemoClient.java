@@ -1,7 +1,8 @@
 package ylj.demo.network.netty4;
 
-import java.util.Date;
-import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelOption;
@@ -16,14 +17,16 @@ import io.netty.channel.socket.SocketChannel;
 
 
 public class DemoClient {
+	private static final Logger logger = Logger.getLogger(DemoClient.class);
 
+	
 	  public static class TimeClientHandler extends ChannelInboundHandlerAdapter {
 	    @Override
 	    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-	    	System.out.println("===> TimeClientHandler.channelRead() "+msg.getClass());
+	    	logger.info("===> TimeClientHandler.channelRead() "+msg.getClass());
 	    	
 	    	DemoUnixTime m = (DemoUnixTime) msg;
-	        System.out.println(m);
+	        logger.info(m);
 	      //  ctx.close();
 	        ctx.fireChannelRead(msg);
 	    }
@@ -38,10 +41,10 @@ public class DemoClient {
 	  public static class TimeClientHandler2 extends ChannelInboundHandlerAdapter {
 	    @Override
 	    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-	    	System.out.println("===> TimeClientHandler2.channelRead() "+msg.getClass());
+	    	logger.info("===> TimeClientHandler2.channelRead() "+msg.getClass());
 	    	
 	    	DemoUnixTime m = (DemoUnixTime) msg;
-	        System.out.println(m);
+	        logger.info(m);
 	        ctx.fireChannelRead(msg);
 	    }
 
@@ -53,6 +56,10 @@ public class DemoClient {
 	}
 	  public static void main(String[] args) throws Exception {
 		   
+			DOMConfigurator.configure("conf/log4j.xml");
+
+			
+			
 		   String host="localhost";
 		   int port=8080;
 	        

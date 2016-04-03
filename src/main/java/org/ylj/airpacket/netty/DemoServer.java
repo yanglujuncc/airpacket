@@ -1,5 +1,7 @@
 package org.ylj.airpacket.netty;
 
+import org.apache.log4j.xml.DOMConfigurator;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
@@ -96,8 +98,10 @@ public class DemoServer {
 	                 @Override
 	                 public void initChannel(SocketChannel ch) throws Exception {
 	                	 
-	                     ch.pipeline().addLast(new TimeServerHandler());
-	                     
+	                     ch.pipeline().addLast(new PacketDecoder2());
+	                     ch.pipeline().addLast(new PacketEncoder2());
+	                     ch.pipeline().addLast(new PacketReaderHandler());
+		                   
 	                 }
 	             })
 	             .option(ChannelOption.SO_BACKLOG, 128)          // (5)
@@ -119,6 +123,9 @@ public class DemoServer {
 	   
 }
 	 public static void main(String[] args) throws Exception {
+		 
+			DOMConfigurator.configure("conf/log4j.xml");
+
 	        int port;
 	        if (args.length > 0) {
 	            port = Integer.parseInt(args[0]);

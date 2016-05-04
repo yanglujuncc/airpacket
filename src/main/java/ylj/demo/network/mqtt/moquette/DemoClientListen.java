@@ -28,7 +28,9 @@ public class DemoClientListen {
 		// connection.publish("foo", "Hello from client1".getBytes(),
 		// QoS.AT_LEAST_ONCE, false);
 		// System.out.println("publish topic success .");
-		Topic[] topics = { new Topic("foo", QoS.AT_LEAST_ONCE) };
+//	//	Topic[] topics = { new Topic("foo", QoS.AT_LEAST_ONCE) };
+		
+		Topic[] topics = { new Topic("clients/01/up", QoS.AT_LEAST_ONCE) };
 		byte[] qoses = connection.subscribe(topics);
 		System.out.println("subscribe topic "+"foo"+" success.");
 		

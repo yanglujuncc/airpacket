@@ -1,4 +1,4 @@
-package ylj.demo.network.mqtt.moquette;
+package ylj.demo.network.mqtt.moquette.house;
 
 
 import org.apache.log4j.xml.DOMConfigurator;
@@ -10,7 +10,7 @@ import org.fusesource.mqtt.client.Topic;
 
 import com.alibaba.fastjson.JSON;
 
-public class DemoClient {
+public class HouseClient2 {
 	
 	  public static void main(String[] args) throws Exception {
 		  
@@ -33,9 +33,34 @@ public class DemoClient {
 	
 			connection.connect();			
 			System.out.println("connect server success.");
-			connection.publish("clients/01/down", "Hello from client1".getBytes(), QoS.AT_LEAST_ONCE, false);
-			connection.publish("foo", "Hello from client1".getBytes(), QoS.AT_LEAST_ONCE, false);
-			System.out.println("publish topic success .");
+			
+		
+			String userId="ylj3";
+		
+			String to="ply";
+			
+				
+			
+				
+			
+					IMMsg replyIMMsg=new IMMsg();
+					replyIMMsg.from=userId;
+					replyIMMsg.to=to;
+					replyIMMsg.content="hello";
+					
+					CoreJsonMsg replyCoreJsonMsg=new CoreJsonMsg();
+					replyCoreJsonMsg.msgType=11;
+					replyCoreJsonMsg.jsonContent=JSON.toJSONString(replyIMMsg);
+					
+					String replyCoreJsonMsgJsonString=JSON.toJSONString(replyCoreJsonMsg);
+					
+					connection.publish("clients/"+replyIMMsg.to+"/up", replyCoreJsonMsgJsonString.getBytes(), QoS.AT_LEAST_ONCE, false);
+					
+					System.out.println("send reply success");
+			
+			//
+			//connection.publish("foo", "Hello from client1".getBytes(), QoS.AT_LEAST_ONCE, false);
+			//System.out.println("publish topic success .");
 			/*
 			
 			Topic[] topics = {new Topic("foo", QoS.AT_LEAST_ONCE)};
@@ -46,7 +71,7 @@ public class DemoClient {
 			// process the message then:
 			message.ack();
 			*/
-			connection.disconnect();
+			//connection.disconnect();
 	  }
 	
 }

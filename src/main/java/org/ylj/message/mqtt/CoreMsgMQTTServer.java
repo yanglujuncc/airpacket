@@ -1,4 +1,4 @@
-package ylj.demo.network.mqtt.moquette;
+package org.ylj.message.mqtt;
 
 import io.moquette.interception.InterceptHandler;
 import io.moquette.server.Server;
@@ -12,25 +12,34 @@ import java.util.List;
 
 import org.apache.log4j.xml.DOMConfigurator;
 
-public class EmbeddedLauncher {
+public class CoreMsgMQTTServer {
 	
 
-	    public static void main(String[] args) throws InterruptedException, IOException {
+	    public static void main(String[] args) throws Exception {
 	    	
 	    	DOMConfigurator.configure("conf/log4j.xml");
 
 	        final IConfig classPathConfig = new ClasspathConfig();
-	        classPathConfig.setProperty("authenticator_class", "ylj.demo.network.mqtt.moquette.MyAuthenticator");
-	        classPathConfig.setProperty("authorizator_class", "ylj.demo.network.mqtt.moquette.MyAuthorizator");
+	        classPathConfig.setProperty("authenticator_class", "org.ylj.message.mqtt.CoreMsgMQTTAuthenticator");
+	        classPathConfig.setProperty("authorizator_class", "org.ylj.message.mqtt.CoreMsgMQTTAuthorizator");
 		       
 	        final Server mqttBroker = new Server();
 	        
-	       // HouseInterceptHandler houseInterceptHandler=new HouseInterceptHandler();
-	        //IMMsgRouter imMsgRouter=new IMMsgRouter();
+	        HouseInterceptHandler houseInterceptHandler=new HouseInterceptHandler();
+	        IMMsgRouter imMsgRouter=new IMMsgRouter();
+	        houseInterceptHandler.imMsgRouter=imMsgRouter;
 	        
-	        List<? extends InterceptHandler> userHandlers =Arrays.asList(new MyInterceptHandler());
+	        List<? extends InterceptHandler> userHandlers =Arrays.asList(houseInterceptHandler);
 	        mqttBroker.startServer(classPathConfig, userHandlers);
 	        
+	        
+	        String host="localhost";
+	        int port=1883;
+	        String clientId="imMsgRouter";
+	        String userName="imMsgRouterName";
+	        String passwd="imMsgRouterPSWD";
+	        
+	        imMsgRouter.init(host, port, clientId, userName, passwd);
 	        
 	       // mqttBroker.
 	        System.out.println("Broker started press [CTRL+C] to stop");
